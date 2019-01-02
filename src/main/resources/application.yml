@@ -1,0 +1,31 @@
+micronaut:
+    application:
+        name: test-authentication
+    http:
+        client:
+            logger-name: loggerUntukDebug
+
+datasources:
+    default:
+        url: jdbc:mysql://localhost:3306/test_authentication?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: root
+        driverClassName: "com.mysql.jdbc.Driver"
+
+#tag::jpa[] //untuk cek di folder test.app.domain jika ada setiap perubahan maka ada pembaruan table di database.
+jpa:
+    default:
+        packages-to-scan:
+            - 'test.authentication.domain.security' # <1>
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+                hbm2ddl:
+                    auto: update
+                show_sql: true
+#end::jpa[]
+
+#tag::application[]
+application:
+    max: 10
+#end::application[]
