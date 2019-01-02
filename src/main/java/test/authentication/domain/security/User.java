@@ -14,7 +14,7 @@
  * License for the specific  language  governing  permissions  and limitations
  * under the License.
  *
- * Author : Bobby S. Kom
+ * Author : Bobby
  */
 
 package test.authentication.domain.security;
