@@ -92,8 +92,9 @@ public class UserDetails {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user_details",fetch = FetchType.LAZY)
-//    private Cif cif;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cif_id")
+    private Cif cif;
 
     @NotNull
     @Column(name = "user_alias")
@@ -148,6 +149,21 @@ public class UserDetails {
 
     @Column(name = "language")
     private String language;
+
+    @Column(name = "is_login")
+    private String isLogin;
+
+    @Column(name = "ip_address")
+    private String ipAddress;
+
+    @Column(name = "session_id")
+    private String sessionId;
+
+    @Column(name = "login_time")
+    private Date loginTime;
+
+    @Column(name = "logout_time")
+    private Date logoutTime;
 
     public Long getId() { return id; }
 
@@ -323,6 +339,30 @@ public class UserDetails {
         this.language = language;
     }
 
+    public String getIsLogin() { return isLogin; }
+
+    public void setIsLogin(String isLogin) { this.isLogin = isLogin; }
+
+    public String getIpAddress() { return ipAddress; }
+
+    public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
+
+    public String getSessionId() { return sessionId; }
+
+    public void setSessionId(String sessionId) { this.sessionId = sessionId; }
+
+    public Date getLoginTime() { return loginTime; }
+
+    public void setLoginTime(Date loginTime) { this.loginTime = loginTime; }
+
+    public Date getLogoutTime() { return logoutTime; }
+
+    public void setLogoutTime(Date logoutTime) { this.logoutTime = logoutTime; }
+
+    public Cif getCif() { return cif; }
+
+    public void setCif(Cif cif) { this.cif = cif; }
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("UserDetails{");
@@ -370,7 +410,17 @@ public class UserDetails {
         sb.append(newEmail);
         sb.append("', language='");
         sb.append(language);
-        sb.append("'}");
+        sb.append("', isLogin='");
+        sb.append(isLogin);
+        sb.append("', ipAddress='");
+        sb.append(ipAddress);
+        sb.append("', sessionId='");
+        sb.append(sessionId);
+        sb.append("', loginTime=");
+        sb.append(loginTime);
+        sb.append(", logoutTime=");
+        sb.append(loginTime);
+        sb.append("}");
 
         return sb.toString();
     }

@@ -165,6 +165,7 @@ public class CifUser {
         sb.append(", bo='");
         sb.append(bo);
         sb.append("', finance='");
+        sb.append(finance);
         sb.append("', sysAdmin='");
         sb.append(sysAdmin);
         sb.append("'}");
