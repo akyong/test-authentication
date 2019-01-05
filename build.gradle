@@ -55,6 +55,10 @@ dependencies {
     //tag::mysql-conector[]
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
     //end::mysql-connector[]
+    
+    //tag::Micronaut Basic Auth[http://guides.micronaut.io/micronaut-security-basicauth/guide/index.html]
+    compile "io.micronaut:micronaut-security"
+    //end::Micronaut Basic Auth[]
 }
 
 shadowJar {

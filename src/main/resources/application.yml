@@ -1,9 +1,14 @@
 micronaut:
+    security: #mincronaut basic auth
+        enabled: true
+        endpoints:
+            login:
+                enabled: true
     application:
         name: test-authentication
     http:
         client:
-            logger-name: loggerUntukDebug
+            logger-name: testauth
 
 datasources:
     default:
