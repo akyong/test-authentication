@@ -14,5 +14,6 @@
 
 
     <logger name="loggerUntukDebug" level="info"/>
-    <logger name="testauth" level="debug"/>
+    <!--<logger name="testauth" level="debug"/>-->
+    <logger name="io.micronaut.security" level="debug" />
 </configuration>

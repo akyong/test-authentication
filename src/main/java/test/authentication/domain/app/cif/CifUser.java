@@ -1,3 +1,22 @@
+/**
+ * Copyright (c) 2019. PT. Distributor Indonesia Unggul. All rights reserverd.
+ *
+ * This source code is an unpublished work and the use of  a copyright  notice
+ * does not imply otherwise. This source  code  contains  confidential,  trade
+ * secret material of PT. Distributor Indonesia Unggul.
+ * Any attempt or participation in deciphering, decoding, reverse  engineering
+ * or in any way altering the source code is strictly  prohibited, unless  the
+ * prior  written consent of Distributor Indonesia Unggul. is obtained.
+ *
+ * Unless  required  by  applicable  law  or  agreed  to  in writing, software
+ * distributed under the License is distributed on an "AS IS"  BASIS,  WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or  implied.  See  the
+ * License for the specific  language  governing  permissions  and limitations
+ * under the License.
+ *
+ * Author : Bobby
+ */
+
 package test.authentication.domain.app.cif;
 
 import test.authentication.domain.security.UserDetails;
@@ -27,7 +46,6 @@ public class CifUser {
         this.cif = cif;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userDetails = userDetails;
         this.deleteFlag = deleteFlag;
         this.createdBy = createdBy;
         this.dateCreated = dateCreated;
@@ -45,7 +63,7 @@ public class CifUser {
     @Version
     private Long version;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "cif_id")
     private Cif cif;
 
@@ -56,10 +74,6 @@ public class CifUser {
     @NotNull
     @Column(name = "last_name")
     private String lastName;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_detail_id")
-    private UserDetails userDetails;
 
     @NotNull
     @Column(name = "delete_flag")
@@ -105,10 +119,6 @@ public class CifUser {
 
     public String getLastName() { return lastName; }
 
-    public void setUserDetails(UserDetails userDetails) { this.userDetails = userDetails; }
-
-    public UserDetails getUserDetails() { return userDetails; }
-
     public void setDeleteFlag(String deleteFlag) { this.deleteFlag = deleteFlag; }
 
     public String getDeleteFlag() { return deleteFlag; }
@@ -150,9 +160,7 @@ public class CifUser {
         sb.append(firstName);
         sb.append("', lastName='");
         sb.append(lastName);
-        sb.append("', userDetils=");
-        sb.append(userDetails);
-        sb.append(", deleteFlag='");
+        sb.append("', deleteFlag='");
         sb.append(deleteFlag);
         sb.append("', createdBy='");
         sb.append(createdBy);

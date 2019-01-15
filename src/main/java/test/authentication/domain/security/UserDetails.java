@@ -20,8 +20,7 @@
 package test.authentication.domain.security;
 
 import test.authentication.domain.app.cif.Cif;
-
-import javax.inject.Singleton;
+import test.authentication.domain.app.cif.CifUser;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -88,13 +87,26 @@ public class UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    /**
+     * Column user_id as relation to table user
+     * */
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    /**
+     * Column cif_id as relation to table cif
+     * */
+    @ManyToOne
     @JoinColumn(name = "cif_id")
     private Cif cif;
+
+    /**
+     * Column cif_user_id as relation to CifUser
+     * */
+    @ManyToOne
+    @JoinColumn(name = "cif_user_id")
+    private CifUser cifUser;
 
     @NotNull
     @Column(name = "user_alias")
@@ -362,6 +374,10 @@ public class UserDetails {
     public Cif getCif() { return cif; }
 
     public void setCif(Cif cif) { this.cif = cif; }
+
+    public CifUser getCifUser() { return cifUser; }
+
+    public void setCifUser(CifUser cifUser) { this.cifUser = cifUser; }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();

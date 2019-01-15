@@ -17,36 +17,25 @@
  * Author : Bobby
  */
 
-package test.authentication.domain.configuration;
 
-import io.micronaut.context.annotation.ConfigurationProperties;
+package test.authentication.services.security;
 
-@ConfigurationProperties("application")
-public class ApplicationConfigurationProperties implements ApplicationConfiguration{
-    protected final Integer DEFAULT_MAX = 10;
-    protected final String DEFAULT_PASSWORD = "password";
+import io.micronaut.security.authentication.providers.PasswordEncoder;
+import io.micronaut.spring.tx.annotation.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-    private Integer max = DEFAULT_MAX;
-    private String password = DEFAULT_PASSWORD;
+public class BCryptPasswordEncoderService implements PasswordEncoder {
+    org.springframework.security.crypto.password.PasswordEncoder delegate = new BCryptPasswordEncoder();
 
     @Override
-    public Integer getMax() {
-        return max;
+    @Transactional
+    public String encode(String rawPassword) {
+        return delegate.encode(rawPassword);
     }
 
     @Override
-    public String getDefaultPassword(){ return  password;}
-
-    public void setMax(Integer max) {
-        if(max != null) {
-            this.max = max;
-        }
+    @Transactional
+    public boolean matches(String rawPassword, String encodedPassword) {
+        return delegate.matches(rawPassword, encodedPassword);
     }
-
-    public void setPassword(String password) {
-        if(password != null) {
-            this.password = password;
-        }
-    }
-
 }

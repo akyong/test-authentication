@@ -1,6 +1,23 @@
-package test.authentication.domain.app.cif;
+/**
+ * Copyright (c) 2019. PT. Distributor Indonesia Unggul. All rights reserverd.
+ *
+ * This source code is an unpublished work and the use of  a copyright  notice
+ * does not imply otherwise. This source  code  contains  confidential,  trade
+ * secret material of PT. Distributor Indonesia Unggul.
+ * Any attempt or participation in deciphering, decoding, reverse  engineering
+ * or in any way altering the source code is strictly  prohibited, unless  the
+ * prior  written consent of Distributor Indonesia Unggul. is obtained.
+ *
+ * Unless  required  by  applicable  law  or  agreed  to  in writing, software
+ * distributed under the License is distributed on an "AS IS"  BASIS,  WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or  implied.  See  the
+ * License for the specific  language  governing  permissions  and limitations
+ * under the License.
+ *
+ * Author : Bobby
+ */
 
-import test.authentication.domain.security.UserDetails;
+package test.authentication.domain.app.cif;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,20 +29,16 @@ public class Cif {
 
     public Cif(){}
 
-    public Cif(@NotNull Long version,
-               @NotNull String cifId,
+    public Cif(@NotNull String cifId,
                @NotNull String corpName,
                @NotNull String address1,
-               @NotNull String address2,
+               String address2,
                @NotNull Date joinDate,
                @NotNull String deleteFlag,
                @NotNull Date dateCreated,
                @NotNull Date lastUpdated,
                @NotNull Date expireDate,
-               @NotNull String pending,
-               @NotNull String status,
-               @NotNull UserDetails userDetails){
-        this.version = version;
+               @NotNull String status){
         this.cifId = cifId;
         this.corpName = corpName;
         this.address1 = address1;
@@ -35,10 +48,7 @@ public class Cif {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         this.expireDate = expireDate;
-        this.pending = pending;
         this.status = status;
-        this.userDetails = userDetails;
-
     }
 
     @Id
@@ -49,7 +59,7 @@ public class Cif {
     private Long version;
 
     @NotNull
-    @Column(name = "cif_id")
+    @Column(name = "cif_id", unique = true)
     private String cifId;
 
     @NotNull
@@ -63,7 +73,6 @@ public class Cif {
     @Column(name = "address2")
     private String address2;
 
-    @NotNull
     @Column(name = "join_date")
     private Date joinDate;
 
@@ -75,32 +84,24 @@ public class Cif {
     @Column(name = "date_created")
     private Date dateCreated;
 
-    @NotNull
     @Column(name = "last_updated")
     private Date lastUpdated;
 
-    @NotNull
     @Column(name = "expire_date")
     private Date expireDate;
-
-    @NotNull
-    @Column(name = "pending")
-    private String pending;
 
     @NotNull
     @Column(name = "status")
     private String status;
     /**
+     * Every action must be approved
+     *
      * Status
      * 1 - Pending Create
      * 2 - Pending Update
      * 3 - Pending Delete
      * 4 - Active
      * */
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_detail_id")
-    private UserDetails userDetails;
 
     public void setId(Long id) { this.id = id; }
 
@@ -146,17 +147,9 @@ public class Cif {
 
     public Date getExpireDate() { return expireDate; }
 
-    public void setPending(String pending) { this.pending = pending; }
-
-    public String getPending() { return pending; }
-
     public void setStatus(String status) { this.status = status; }
 
     public String getStatus() { return status; }
-
-    public void setUserDetails(UserDetails pic1) { this.userDetails = userDetails; }
-
-    public UserDetails getUserDetails() { return userDetails; }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -183,13 +176,9 @@ public class Cif {
         sb.append(lastUpdated);
         sb.append(", expireDate=");
         sb.append(expireDate);
-        sb.append(", pending='");
-        sb.append(pending);
-        sb.append("', status='");
+        sb.append(", status='");
         sb.append(status);
-        sb.append(", user_details=");
-        sb.append(userDetails);
-        sb.append("}");
+        sb.append("'}");
         return sb.toString();
     }
 }

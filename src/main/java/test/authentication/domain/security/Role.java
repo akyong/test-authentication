@@ -19,11 +19,9 @@
 
 package test.authentication.domain.security;
 
-import org.hibernate.query.criteria.internal.expression.function.SubstringFunction;
-
-import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -37,6 +35,11 @@ public class Role {
         this.isSystem = isSystem;
     }
 
+    /**
+     * ROLE_ADMIN
+     * ROLE_BUYER
+     * ROLE_SELLER
+     * */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -51,6 +54,9 @@ public class Role {
     @NotNull
     @Column(name = "authority")
     private String authority;
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role",targetEntity = UserRole.class)
+//    private UserRole userRole;
 
     @NotNull
     @Column(name = "is_system") // N ->dibuat oleh system secara otomatis, jika Y, maka ada orang yang buat.

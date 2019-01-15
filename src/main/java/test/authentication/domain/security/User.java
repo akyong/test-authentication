@@ -20,7 +20,9 @@
 package test.authentication.domain.security;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
@@ -28,7 +30,8 @@ public class User {
 
     public User(){}
 
-    public User(@NotNull String username, @NotNull String password, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked, @NotNull boolean passwordExpired){
+    public User(@NotNull @Email String email, @NotNull String username, @NotNull String password, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked, @NotNull boolean passwordExpired){
+        this.email = email;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
@@ -45,12 +48,17 @@ public class User {
     private Long version;
 
     @NotNull
-    @Column(name="username",nullable = false, unique = true) //set unique true
-    private String username;
+    @Email
+    @Column(name="email",nullable = false, unique = true) //set unique true
+    private String email;
 
     @NotNull
     @Column(name = "password", nullable = false)
     private String password;
+
+    @NotNull
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
     @NotNull
     @Column(name ="enabled")
@@ -69,17 +77,16 @@ public class User {
     private boolean passwordExpired;
 
     /**
-     * Configuration for Join to table userDetails
-     * @return
+     * Configuration for Join to table UserDetails
      */
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private UserDetails userDetails;
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", targetEntity = UserDetails.class)
+//    private UserDetails userDetails;
 
     /**
-     * End of Configuration for join to table userDetails
-     * @return
+     * Configuration for Join to table UserRole
      */
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user",targetEntity = UserRole.class)
+//    private UserRole userRole;
 
     public Long getId() {
         return id;
@@ -96,6 +103,10 @@ public class User {
     public void setUsername(@NotNull String username){ this.username = username; }
 
     public String getUsername() { return username; }
+
+    public void setEmail(@NotNull @Email String email){ this.email = email; }
+
+    public String getEmail() { return email; }
 
     public void setPassword(@NotNull String password){ this.password = password; }
 
@@ -148,11 +159,13 @@ public class User {
         sb.append(id);
         sb.append(", version=");
         sb.append(version);
-        sb.append(", username='");
+        sb.append(", email='");
+        sb.append(email);
+        sb.append("', username='");
         sb.append(username);
         sb.append("', password=");
         sb.append("'Protected Bro!'");
-        sb.append(", accountExpired");
+        sb.append(", accountExpired=");
         sb.append(accountExpired);
         sb.append(", accountLocked=");
         sb.append(accountLocked);
@@ -161,4 +174,8 @@ public class User {
         sb.append("'}");
         return sb.toString();
     }
+
+
+
+
 }

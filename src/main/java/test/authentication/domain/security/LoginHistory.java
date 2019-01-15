@@ -27,7 +27,12 @@ import java.util.Date;
 @Table(name = "login_history")
 public class LoginHistory {
 
-    public LoginHistory(){}
+    public LoginHistory(@NotNull String userid, @NotNull String loginVia, @NotNull Date loginTime, @NotNull Date logoutTime){
+        this.userid = userid;
+        this.loginVia = loginVia;
+        this.loginTime = loginTime;
+        this.logoutTime = logoutTime;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,10 +45,12 @@ public class LoginHistory {
     private String userid;
 
     @NotNull
+    @Column(name = "login_media")
+    private String loginVia;
+
     @Column(name = "login_time")
     private Date loginTime;
 
-    @NotNull
     @Column(name = "logout_time")
     private Date logoutTime;
 
@@ -54,6 +61,10 @@ public class LoginHistory {
     public String getUserid() {
         return userid;
     }
+
+    public void setLoginVia(String loginVia) { this.loginVia = loginVia; }
+
+    public String getLoginVia() { return loginVia; }
 
     public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;

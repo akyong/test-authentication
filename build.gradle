@@ -23,6 +23,10 @@ dependencyManagement {
     }
 }
 
+ext {
+    springSecurityCryptoVersion='4.2.5.RELEASE'
+}
+
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
@@ -36,6 +40,9 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "io.micronaut:micronaut-inject-java"
     testCompile "org.hamcrest:hamcrest-all:1.3"
+
+//    testCompile "org.codehaus.groovy:groovy-all:2.5.0"
+//    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
     
     //security-jwt[https://docs.micronaut.io/latest/guide/index.html#security]
     annotationProcessor "io.micronaut:micronaut-security"
@@ -57,8 +64,20 @@ dependencies {
     //end::mysql-connector[]
     
     //tag::Micronaut Basic Auth[http://guides.micronaut.io/micronaut-security-basicauth/guide/index.html]
-    compile "io.micronaut:micronaut-security"
+//    compile "io.micronaut:micronaut-security"
     //end::Micronaut Basic Auth[]
+
+    //tag::Micronaut Security Session[http://guides.micronaut.io/micronaut-security-session/guide/index.html]
+//    compile "io.micronaut:micronaut-security-session" //ini gak bisa digunakan bareng security jwt 
+    //end::Micronaut Secuirty Session
+
+    //tag::Micronaut Security JWT[http://guides.micronaut.io/micronaut-security-jwt/guide/index.html]
+    compile "io.micronaut:micronaut-security-jwt"
+    //end::Micronaut Security JWT
+
+    compile "org.springframework.security:spring-security-crypto:${springSecurityCryptoVersion}"
+
+
 }
 
 shadowJar {

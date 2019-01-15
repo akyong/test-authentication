@@ -16,37 +16,14 @@
  *
  * Author : Bobby
  */
+package test.authentication.repository;
 
-package test.authentication.domain.configuration;
+import test.authentication.domain.security.Role;
 
-import io.micronaut.context.annotation.ConfigurationProperties;
+import javax.validation.constraints.NotNull;
 
-@ConfigurationProperties("application")
-public class ApplicationConfigurationProperties implements ApplicationConfiguration{
-    protected final Integer DEFAULT_MAX = 10;
-    protected final String DEFAULT_PASSWORD = "password";
+public interface RoleRepository {
+    Role save(@NotNull String name, @NotNull String authority, @NotNull  String isSystem);
 
-    private Integer max = DEFAULT_MAX;
-    private String password = DEFAULT_PASSWORD;
-
-    @Override
-    public Integer getMax() {
-        return max;
-    }
-
-    @Override
-    public String getDefaultPassword(){ return  password;}
-
-    public void setMax(Integer max) {
-        if(max != null) {
-            this.max = max;
-        }
-    }
-
-    public void setPassword(String password) {
-        if(password != null) {
-            this.password = password;
-        }
-    }
-
+    Role findByAuthority(@NotNull String authority);
 }

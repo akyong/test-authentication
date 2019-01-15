@@ -16,37 +16,24 @@
  *
  * Author : Bobby
  */
+package test.authentication.repository;
 
-package test.authentication.domain.configuration;
+import test.authentication.domain.security.User;
 
-import io.micronaut.context.annotation.ConfigurationProperties;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
-@ConfigurationProperties("application")
-public class ApplicationConfigurationProperties implements ApplicationConfiguration{
-    protected final Integer DEFAULT_MAX = 10;
-    protected final String DEFAULT_PASSWORD = "password";
+public interface UserRepository {
+    User save(@NotNull @Email String email, @NotNull String username, @NotNull  String encodedPassword, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked, @NotNull boolean passwordExpired);
 
-    private Integer max = DEFAULT_MAX;
-    private String password = DEFAULT_PASSWORD;
+    String generateRandomString();
 
-    @Override
-    public Integer getMax() {
-        return max;
-    }
+    String encodePassword(String plainText);
 
-    @Override
-    public String getDefaultPassword(){ return  password;}
+    String getNewPasswordWithEncoded();
 
-    public void setMax(Integer max) {
-        if(max != null) {
-            this.max = max;
-        }
-    }
+    User findByEmail(@NotNull @Email String email);
 
-    public void setPassword(String password) {
-        if(password != null) {
-            this.password = password;
-        }
-    }
-
+    List<User> findAll();
 }
