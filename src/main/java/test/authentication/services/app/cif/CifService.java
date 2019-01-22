@@ -1,14 +1,15 @@
 package test.authentication.services.app.cif;
 
+import io.micronaut.security.authentication.Authentication;
 import io.micronaut.spring.tx.annotation.Transactional;
 import test.authentication.SortingAndOrderArguments;
 import test.authentication.domain.app.cif.Cif;
 import test.authentication.domain.configuration.ApplicationConfiguration;
+import test.authentication.domain.security.User;
 import test.authentication.domain.security.UserDetails;
 import test.authentication.repository.CifRepository;
 
 import javax.persistence.*;
-import javax.print.attribute.HashAttributeSet;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -32,20 +33,20 @@ public class CifService implements CifRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public ArrayList findById(@NotNull Long id) {
+    public Cif findById(@NotNull Long id) {
         Cif cifInstance = entityManager.find(Cif.class, id);
-        Query qlStringUserDetails = entityManager.createQuery("SELECT a FROM UserDetails as a WHERE a.cif = :cif").setParameter("cif",cifInstance);
-        Query qlStringCifUser = entityManager.createQuery("SELECT b FROM CifUser as b WHERE b.cif = :cif").setParameter("cif",cifInstance);
+//        Query qlStringUserDetails = entityManager.createQuery("SELECT a FROM UserDetails as a WHERE a.cif = :cif").setParameter("cif",cifInstance);
+//        Query qlStringCifUser = entityManager.createQuery("SELECT b FROM CifUser as b WHERE b.cif = :cif").setParameter("cif",cifInstance);
+//
+//        ArrayList list = new ArrayList();
+//        HashMap map = new HashMap();
+//        map.put("Cif",cifInstance);
+//        map.put("UserDetails",qlStringUserDetails.getResultList().get(0));
+//        map.put("CifUser",qlStringCifUser.getResultList().get(0));
+//
+//        list.add(map);
 
-        ArrayList list = new ArrayList();
-        HashMap map = new HashMap();
-        map.put("Cif",cifInstance);
-        map.put("UserDetails",qlStringUserDetails.getResultList().get(0));
-        map.put("CifUser",qlStringCifUser.getResultList().get(0));
-
-        list.add(map);
-
-        return list;
+        return cifInstance;
     }
 
     @Override
@@ -118,5 +119,26 @@ public class CifService implements CifRepository {
         else{
             return (Cif) query.getResultList().get(0);
         }
+    }
+
+    @Override
+    @Transactional
+    public Cif findCifByUser(User user){
+        Query query = entityManager.createQuery("SELECT a FROM UserDetails as a WHERE user =:user").setParameter("user",user);
+        if(query.getResultList().isEmpty()){
+            return null;
+        }
+        else{
+            UserDetails userDetails = (UserDetails) query.getResultList().get(0);
+            return userDetails.getCif() ;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Cif getCurrentCif(Authentication authentication){
+        String cifId = authentication.getAttributes().get("cifId").toString();
+        Query query = entityManager.createQuery("SELECT a FROM Cif as a WHERE a.cifId = :cifId").setParameter("cifId",cifId);
+        return (Cif) query.getResultList().get(0);
     }
 }

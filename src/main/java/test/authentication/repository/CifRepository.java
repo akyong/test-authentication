@@ -19,9 +19,10 @@
 
 package test.authentication.repository;
 
+import io.micronaut.security.authentication.Authentication;
 import test.authentication.SortingAndOrderArguments;
 import test.authentication.domain.app.cif.Cif;
-
+import test.authentication.domain.security.User;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -47,6 +48,9 @@ public interface CifRepository {
 
     int update(@NotNull @NotBlank Long id, @NotNull @NotBlank String corpName, @NotNull Long type, @NotNull @NotBlank String address1, String address2);
 
-    ArrayList findById(@NotNull Long id);
+    Cif findById(@NotNull Long id);
 
+    Cif findCifByUser(User user);
+
+    Cif getCurrentCif(Authentication authentication);
 }

@@ -26,7 +26,9 @@ import io.micronaut.http.annotation.Error;
 import io.micronaut.http.hateos.JsonError;
 import io.micronaut.http.hateos.Link;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
+import io.micronaut.security.utils.SecurityService;
 import io.micronaut.validation.Validated;
 import test.authentication.SortingAndOrderArguments;
 import test.authentication.domain.app.cif.Cif;
@@ -59,34 +61,40 @@ public class CifController {
     private static UserDetailsService userDetailsService;
     private static BCryptPasswordEncoderService bCryptPasswordEncoderService;
     private static ApplicationConfiguration applicationConfiguration;
+    private static SecurityService securityService;
 
 
-    public CifController(UserDetailsService userDetailsService, CifService cifService, CifUserService cifUserService, UserService userService, BCryptPasswordEncoderService bCryptPasswordEncoderService, ApplicationConfiguration applicationConfiguration){
+    public CifController(UserDetailsService userDetailsService, CifService cifService, CifUserService cifUserService, UserService userService, BCryptPasswordEncoderService bCryptPasswordEncoderService, ApplicationConfiguration applicationConfiguration,SecurityService securityService){
         this.cifService = cifService;
         this.cifUserService = cifUserService;
         this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoderService = bCryptPasswordEncoderService;
         this.applicationConfiguration = applicationConfiguration;
+        this.securityService = securityService;
     }
 
     /**
      * TODO : cif root page to get list of cif /cif/
+     * this function can only access whom has the role ROLE_ADMIN
      * */
-    @Secured({Common.ROLE_ADMIN, Common.ROLE_CORP_ADMIN})
+    @Secured(Common.ROLE_ADMIN)
     @Get("/")
     public ArrayList root() {
+//        boolean isCorpAdmin = securityService.hasRole(Common.ROLE_CORP_ADMIN);
         SortingAndOrderArguments args = new SortingAndOrderArguments();
         args.setOrder("desc");
         args.setSort("dateCreated");
-        args.setMax(10);
+        args.setMax(applicationConfiguration.getMax());
         return cifService.findAll(args);
+
     }
 
     /**
      * TODO : filter list of cif /cif/index
+     * this function can only access whom has the role ROLE_ADMIN
      * */
-    @Secured({Common.ROLE_ADMIN, Common.ROLE_CORP_ADMIN})
+    @Secured(Common.ROLE_ADMIN)
     @Get(value = "/index{?args*}")
     public ArrayList index(@Valid SortingAndOrderArguments args) {
         return cifService.findAll(args);
@@ -94,6 +102,7 @@ public class CifController {
 
     /**
      * TODO : Create Cif, User, UserDetails and CifUser /cif/create
+     * siapa yang bisa membuat ini?????????????????????
      */
     @Secured({Common.ROLE_ADMIN, Common.ROLE_CORP_ADMIN})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -171,10 +180,10 @@ public class CifController {
     /**
      * TODO : update Cif information /cif/update
      * */
-    @Secured({Common.ROLE_ADMIN,Common.ROLE_ADMIN})
+    @Secured({Common.ROLE_ADMIN,Common.ROLE_CORP_ADMIN})
     @Put(value = "/update")
     public HttpResponse update(@Body @Valid CifUpdateValidation cmdCifUpdate){
-        int cifId = cifService.update(
+        cifService.update(
                 cmdCifUpdate.getId(),
                 cmdCifUpdate.getCorpName(),
                 cmdCifUpdate.getType(),
@@ -183,15 +192,16 @@ public class CifController {
         );
 
         return HttpResponse.noContent()
-                .header(HttpHeaders.LOCATION, location(cmdCifUpdate.getId()) .getPath());
+                .header(HttpHeaders.LOCATION, location(cmdCifUpdate.getId()).getPath());
     }
 
     /**
      * TODO : show or display the cif information /cif/show/{id}
+     * just the BackOffice and Corporate Admin can see corporate information
      * */
-    public ArrayList show(Long id){
-        ArrayList result = cifService.findById(id);
-        return result;
+    @Get(value = "/show/{id}")
+    public Cif show(Long id){
+        return cifService.findById(id);
     }
 
     /**
@@ -232,7 +242,7 @@ public class CifController {
     }
 
     protected URI location(Long id) {
-        return URI.create("/cif/" + id);
+        return URI.create("/cif/show/" + id);
     }
 
     protected URI location(Cif cif) {
