@@ -9,6 +9,8 @@ micronaut:
             oauth: #micronaut security jwt
                 enabled: true
         token:
+            basicAuth:
+                enabled: false
             jwt:
                 enabled: true
                 bearer:

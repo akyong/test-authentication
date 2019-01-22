@@ -17,20 +17,38 @@
  * Author : Bobby
  */
 
-package test.authentication.services;
+package test.authentication.validation;
 
-import test.authentication.repository.PasswordGeneratorRepository;
+import test.authentication.domain.app.cif.Cif;
+import test.authentication.domain.security.UserDetails;
 
-import java.nio.charset.Charset;
-import java.util.Random;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-public class PasswordGeneratorService implements PasswordGeneratorRepository {
+public class CifUserValidation {
 
-    @Override
-    public String createRandomString() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        return generatedString;
+    @NotNull @NotBlank
+    private String firstName;
+
+    @NotNull @NotBlank
+    private String lastName;
+
+    public CifUserValidation(){
+
     }
+
+    public CifUserValidation(@NotNull @NotBlank String firstName,
+                             @NotNull @NotBlank String lastName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getFirstName() { return firstName; }
+
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getLastName() { return lastName; }
+
 }

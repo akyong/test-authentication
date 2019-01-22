@@ -17,41 +17,38 @@
  * Author : Bobby
  */
 
-package test.authentication.domain.security;
+package test.authentication.validation;
 
 import test.authentication.domain.app.cif.Cif;
-import javax.persistence.*;
+import test.authentication.domain.security.User;
+
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Entity
-@Table(name="user_details")
-public class UserDetails {
+public class UserDetailsValidation {
+    public UserDetailsValidation(){}
 
-    public UserDetails(){}
-
-    public UserDetails(@NotNull String firstName,
+    public UserDetailsValidation(@NotNull String firstName,
                        @NotNull String lastName,
-                       @NotNull User user,
-                       @NotNull Cif cif,
                        @NotNull String userAlias,
                        @NotNull String email,
                        @NotNull String mobilePhoneNo,
-                       @NotNull String status,
-                       @NotNull String createdBy,
-                       @NotNull Date dateCreated,
-                       @NotNull String updatedBy,
-                       @NotNull Date lastUpdated,
-                       @NotNull String language,
+                       String status,
+                       String createdBy,
+                       Date dateCreated,
+                       String updatedBy,
+                       Date lastUpdated,
+                       String language,
                        String ipAddress,
                        String jwtId,
                        Date loginTime,
                        Date logoutTime){
         this.firstName = firstName;
         this.lastName = lastName;
-        this.user = user;
-        this.cif = cif;
         this.userAlias = userAlias;
         this.email = email;
         this.mobilePhoneNo = mobilePhoneNo;
@@ -69,87 +66,41 @@ public class UserDetails {
         this.logoutTime = logoutTime;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Version
-    private Long version;
-
     @NotNull
-    @Column(name = "first_name")
     private String firstName;
 
     @NotNull
-    @Column(name = "last_name")
     private String lastName;
 
-    /**
-     * Column user_id as relation to table user
-     * */
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "cif_id")
-    private Cif cif;
 
     @NotNull
-    @Column(name = "user_alias")
     private String userAlias;
 
     @Email
-    @Column(name = "email")
     private String email;
 
     @NotNull
-    @Column(name = "mobile_phone_no")
     private String mobilePhoneNo;
 
-    @Column(name = "status")
     private String status;
 
-    @Column(name = "created_by")
     private String createdBy;
 
-    @Column(name = "date_created")
     private Date dateCreated;
 
-    @Column(name = "updated_by")
     private String updatedBy = "";
 
-    @Column(name = "last_updated")
     private Date lastUpdated;
 
-    @Column(name = "language")
     private String language;
 
-    @Column(name = "ip_address")
     private String ipAddress;
 
-    @Column(name = "jwt_id")
     private String jwtId;
 
-    @Column(name = "login_time")
     private Date loginTime;
 
-    @Column(name = "logout_time")
     private Date logoutTime;
-
-    public Long getId() { return id; }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
 
     public String getFirstName(){
         return firstName;
@@ -166,18 +117,6 @@ public class UserDetails {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Cif getCif() { return cif; }
-
-    public void setCif(Cif cif) { this.cif = cif; }
 
     public String getUserAlias() {
         return userAlias;
@@ -266,47 +205,4 @@ public class UserDetails {
     public Date getLogoutTime() { return logoutTime; }
 
     public void setLogoutTime(Date logoutTime) { this.logoutTime = logoutTime; }
-
-
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("UserDetails{");
-        sb.append("id=");
-        sb.append(id);
-        sb.append(", version=");
-        sb.append(version);
-        sb.append(", firstName='");
-        sb.append(firstName);
-        sb.append("', lastName='");
-        sb.append(lastName);
-        sb.append("', User=");
-        sb.append(user);
-        sb.append(", userAlias='");
-        sb.append(userAlias);
-        sb.append("', email='");
-        sb.append(email);
-        sb.append("', mobilePhoneNo='");
-        sb.append(mobilePhoneNo);
-        sb.append("', status='");
-        sb.append(status);
-        sb.append("', createdBy='");
-        sb.append(createdBy);
-        sb.append("', dateCreated='");
-        sb.append(dateCreated);
-        sb.append("', updatedBy='");
-        sb.append(updatedBy);
-        sb.append("', lastUpdated='");
-        sb.append(lastUpdated);
-        sb.append("', language='");
-        sb.append(language);
-        sb.append("', ipAddress='");
-        sb.append(ipAddress);
-        sb.append("', loginTime=");
-        sb.append(loginTime);
-        sb.append(", logoutTime=");
-        sb.append(loginTime);
-        sb.append("}");
-
-        return sb.toString();
-    }
 }

@@ -19,10 +19,12 @@
 
 package test.authentication.domain.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
 @Table(name="user")
@@ -30,14 +32,14 @@ public class User {
 
     public User(){}
 
-    public User(@NotNull @Email String email, @NotNull String username, @NotNull String password, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked, @NotNull boolean passwordExpired){
+    public User(@NotNull @Email String email, @NotNull String username, @NotNull String password, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked){
         this.email = email;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.accountExpired = accountExpired;
         this.accountLocked = accountLocked;
-        this.passwordExpired = passwordExpired;
+//        this.passwordExpired = passwordExpired;
     }
 
     @Id
@@ -47,11 +49,12 @@ public class User {
     @Version
     private Long version;
 
-    @NotNull
+    @JsonIgnore
     @Email
     @Column(name="email",nullable = false, unique = true) //set unique true
     private String email;
 
+    @JsonIgnore
     @NotNull
     @Column(name = "password", nullable = false)
     private String password;
@@ -72,9 +75,12 @@ public class User {
     @Column(name = "account_locked")
     private boolean accountLocked;
 
-    @NotNull
-    @Column(name = "password_expired")
-    private boolean passwordExpired;
+    /*
+    * password expired is a Date
+    * the date when the password will expired or use for the last time
+    * */
+//    @Column(name = "password_expired")
+//    private Date passwordExpired;
 
     /**
      * Configuration for Join to table UserDetails
@@ -136,13 +142,13 @@ public class User {
         return accountLocked;
     }
 
-    public void setPasswordExpired(boolean passwordExpired) {
-        this.passwordExpired = passwordExpired;
-    }
-
-    public boolean isPasswordExpired() {
-        return passwordExpired;
-    }
+//    public void setPasswordExpired(Date passwordExpired) {
+//        this.passwordExpired = passwordExpired;
+//    }
+//
+//    public Date isPasswordExpired() {
+//        return passwordExpired;
+//    }
 
 //    public void setUserDetails(UserDetails userDetails) {
 //        this.userDetails = userDetails;
@@ -152,27 +158,12 @@ public class User {
 //        return userDetails;
 //    }
 
+//    Set<Role> getAuthorities(){
+//
+//    }
+
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("User{");
-        sb.append("id=");
-        sb.append(id);
-        sb.append(", version=");
-        sb.append(version);
-        sb.append(", email='");
-        sb.append(email);
-        sb.append("', username='");
-        sb.append(username);
-        sb.append("', password=");
-        sb.append("'Protected Bro!'");
-        sb.append(", accountExpired=");
-        sb.append(accountExpired);
-        sb.append(", accountLocked=");
-        sb.append(accountLocked);
-        sb.append(", passwordExpired=");
-        sb.append(passwordExpired);
-        sb.append("'}");
-        return sb.toString();
+       return email;
     }
 
 

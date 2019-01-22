@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import test.authentication.domain.security.User;
 import test.authentication.services.security.LoginHistoryService;
+import test.authentication.services.security.UserRoleService;
 import test.authentication.services.security.UserService;
 
 @Singleton
@@ -40,11 +41,13 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthenticationProviderUserPassword.class);
     private static UserService userService;
+    private static UserRoleService userRoleService;
     private static LoginHistoryService loginHistoryService;
     protected final PasswordEncoder passwordEncoder;
 
-    public AuthenticationProviderUserPassword(UserService userService, LoginHistoryService loginHistoryService, PasswordEncoder passwordEncoder){
+    public AuthenticationProviderUserPassword(UserService userService, UserRoleService userRoleService, LoginHistoryService loginHistoryService, PasswordEncoder passwordEncoder){
         this.userService = userService;
+        this.userRoleService = userRoleService;
         this.loginHistoryService = loginHistoryService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -61,11 +64,24 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
         if(user != null){
             LOG.info("BOOLEAN = "+passwordEncoder.matches(password,user.getPassword()));
             if(passwordEncoder.matches(password,user.getPassword())){
-                UserDetails userDetails = new UserDetails((String) authenticationRequest.getIdentity(), new ArrayList<>());
+                ArrayList roles = userRoleService.findAllByUser(user);
+                UserDetails userDetails = new UserDetails((String) authenticationRequest.getIdentity(), roles);
                 loginHistoryService.save(user.getId().toString(),"-", new Date(), null);
                 return Flowable.just(userDetails);
             }
         }
         return Flowable.just(new AuthenticationFailed());
     }
+
+
+//    @Override
+//    public Publisher<AuthenticationResponse> authenticate(AuthenticationRequest authenticationRequest) {
+//        String email = authenticationRequest.getIdentity().toString();
+//        String password = authenticationRequest.getSecret().toString();
+//        if ( authenticationRequest.getIdentity().equals("bobby@tokodistributor.com") &&
+//                authenticationRequest.getSecret().equals("password") ) {
+//            return Flowable.just(new UserDetails((String) authenticationRequest.getIdentity(), new ArrayList<>()));
+//        }
+//        return Flowable.just(new AuthenticationFailed());
+//    }
 }

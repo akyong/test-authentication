@@ -31,6 +31,7 @@ import test.authentication.services.security.UserService;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -57,7 +58,7 @@ public class StartUpListener {
             User user = userService.findByEmail("bobby@tokodistributor.com");
             String password = bCryptPasswordEncoderService.encode(applicationConfiguration.getDefaultPassword());
             if (user == null) {
-                userService.save("bobby@tokodistributor.com", "bobby",password, true, false, false, false);
+                userService.save("bobby@tokodistributor.com", "bobby",password, true, false, false);
                 logger.info("\n---------------CREATE USER-----------------\n---------------EMAIL: bobby@tokodistributor.com-----------------\n---------------PASSWORD: <PROTECTED>-----------------\n---------------USER CREATED-----------------\n");
             } else {
                 logger.info("\n---------------SOME USER ALREADY EXIST-----------------");

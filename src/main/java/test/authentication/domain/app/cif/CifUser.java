@@ -44,6 +44,7 @@ public class CifUser {
                    @NotNull String finance,
                    @NotNull String sysAdmin){
         this.cif = cif;
+        this.userDetails = userDetails;
         this.firstName = firstName;
         this.lastName = lastName;
         this.deleteFlag = deleteFlag;
@@ -67,6 +68,13 @@ public class CifUser {
     @JoinColumn(name = "cif_id")
     private Cif cif;
 
+    /**
+     * Column user_details_id as relation to table userDetails
+     * */
+    @ManyToOne
+    @JoinColumn(name = "user_details_id")
+    private UserDetails userDetails;
+
     @NotNull
     @Column(name = "first_name")
     private String firstName;
@@ -79,7 +87,6 @@ public class CifUser {
     @Column(name = "delete_flag")
     private String deleteFlag;
 
-    @NotNull
     @Column(name = "created_by")
     private String createdBy;
 
@@ -87,11 +94,9 @@ public class CifUser {
     @Column(name = "date_created")
     private Date dateCreated;
 
-    @NotNull
     @Column(name = "updated_by")
     private String updatedBy;
 
-    @NotNull
     @Column(name = "last_updated")
     private Date lastUpdated;
 
@@ -107,9 +112,17 @@ public class CifUser {
     @Column(name = "sys_admin")
     private String sysAdmin = "N";
 
+    public void setId(Long id) { this.id = id; }
+
+    public Long getId() { return id; }
+
     public void setCif(Cif cif) { this.cif = cif; }
 
     public Cif getCif() { return cif; }
+
+    public void setUserDetails(UserDetails userDetails) { this.userDetails = userDetails; }
+
+    public UserDetails getUserDetails() { return userDetails; }
 
     public void setFirstName(String firstName) { this.firstName = firstName; }
 
@@ -155,7 +168,9 @@ public class CifUser {
         StringBuilder sb = new StringBuilder();
         sb.append("CifUser{");
         sb.append("cif=");
-        sb.append(cif);
+        sb.append(cif.getId());
+        sb.append("userDetails=");
+        sb.append(userDetails);
         sb.append(", firstName='");
         sb.append(firstName);
         sb.append("', lastName='");

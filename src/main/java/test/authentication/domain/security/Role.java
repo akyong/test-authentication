@@ -37,6 +37,7 @@ public class Role {
 
     /**
      * ROLE_ADMIN
+     * ROLE_CORP_ADMIN
      * ROLE_BUYER
      * ROLE_SELLER
      * */

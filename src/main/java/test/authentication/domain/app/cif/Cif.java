@@ -20,6 +20,7 @@
 package test.authentication.domain.app.cif;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -29,9 +30,10 @@ public class Cif {
 
     public Cif(){}
 
-    public Cif(@NotNull String cifId,
-               @NotNull String corpName,
-               @NotNull String address1,
+    public Cif(@NotNull @NotBlank String cifId,
+               @NotNull @NotBlank String corpName,
+               @NotNull Long type,
+               @NotNull @NotBlank String address1,
                String address2,
                @NotNull Date joinDate,
                @NotNull String deleteFlag,
@@ -41,6 +43,7 @@ public class Cif {
                @NotNull String status){
         this.cifId = cifId;
         this.corpName = corpName;
+        this.type = type;
         this.address1 = address1;
         this.address2 = address2;
         this.joinDate = joinDate;
@@ -65,6 +68,17 @@ public class Cif {
     @NotNull
     @Column(name = "corp_name")
     private String corpName;
+
+    /*
+    * type :
+    * 1 = Supermart
+    * 2 = Seafood
+    * 3 = Meat
+    * 4 = Sembako
+    * */
+    @NotNull
+    @Column(name = "type")
+    private Long type;
 
     @NotNull
     @Column(name = "address1")
@@ -119,6 +133,10 @@ public class Cif {
 
     public String getCorpName() { return corpName; }
 
+    public void setType(Long type) { this.type = type; }
+
+    public Long getType() { return type; }
+
     public void setAddress1(String address1) { this.address1 = address1; }
 
     public String getAddress1() { return address1; }
@@ -156,13 +174,13 @@ public class Cif {
         sb.append("Cif{");
         sb.append("id=");
         sb.append(id);
-        sb.append(", version=");
-        sb.append(version);
         sb.append(", cifId='");
         sb.append(cifId);
         sb.append("', corpName='");
         sb.append(corpName);
-        sb.append("', address1='");
+        sb.append("', type=");
+        sb.append(type);
+        sb.append(", address1='");
         sb.append(address1);
         sb.append("', address2='");
         sb.append(address2);

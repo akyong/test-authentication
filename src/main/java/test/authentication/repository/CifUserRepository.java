@@ -17,20 +17,28 @@
  * Author : Bobby
  */
 
-package test.authentication.services;
+package test.authentication.repository;
 
-import test.authentication.repository.PasswordGeneratorRepository;
+import test.authentication.domain.app.cif.Cif;
+import test.authentication.domain.app.cif.CifUser;
+import test.authentication.domain.security.UserDetails;
 
-import java.nio.charset.Charset;
-import java.util.Random;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
-public class PasswordGeneratorService implements PasswordGeneratorRepository {
-
-    @Override
-    public String createRandomString() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        return generatedString;
-    }
+public interface CifUserRepository {
+    CifUser save(
+            @NotNull Cif cif,
+            @NotNull @NotBlank String firstName,
+            @NotNull @NotBlank String lastName,
+            @NotNull UserDetails userDetails,
+            @NotNull @NotBlank String deleteFlag,
+            @NotNull String createdBy,
+            @NotNull Date dateCreated,
+            @NotNull @NotBlank String updatedBy,
+            @NotNull Date lastUpdated,
+            @NotNull @NotBlank String bo,
+            @NotNull @NotBlank String finance,
+            @NotNull @NotBlank String sysAdmin);
 }

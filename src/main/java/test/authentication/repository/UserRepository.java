@@ -16,6 +16,7 @@
  *
  * Author : Bobby
  */
+
 package test.authentication.repository;
 
 import test.authentication.domain.security.User;
@@ -25,7 +26,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface UserRepository {
-    User save(@NotNull @Email String email, @NotNull String username, @NotNull  String encodedPassword, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked, @NotNull boolean passwordExpired);
+    User save(@NotNull @Email String email, @NotNull String username, @NotNull  String encodedPassword, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked);
 
     String generateRandomString();
 

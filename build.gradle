@@ -45,8 +45,8 @@ dependencies {
 //    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
     
     //security-jwt[https://docs.micronaut.io/latest/guide/index.html#security]
-    annotationProcessor "io.micronaut:micronaut-security"
-    compile "io.micronaut:micronaut-security"
+//    annotationProcessor "io.micronaut:micronaut-security"
+//    compile "io.micronaut:micronaut-security"
     //security-jwt[END]
 
     //tag::validator[]
@@ -55,8 +55,8 @@ dependencies {
 
     //tag::jpa[]
     compile "io.micronaut.configuration:micronaut-hibernate-jpa" // <1>
-    //compile "io.micronaut.configuration:micronaut-jdbc-hikari" // <2>
-    compile "io.micronaut.configuration:micronaut-jdbc-tomcat"
+    compile "io.micronaut.configuration:micronaut-jdbc-hikari" // <2>
+//    compile "io.micronaut.configuration:micronaut-jdbc-tomcat"
     //end::jpa[]
     
     //tag::mysql-conector[]
@@ -75,6 +75,10 @@ dependencies {
     compile "io.micronaut:micronaut-security-jwt"
     //end::Micronaut Security JWT
 
+    //[Hibernate-Validator][http://guides.micronaut.io/micronaut-error-handling/guide/index.html] 
+    // to create a local error handling to display validation errors when a form submission fails.
+//    compile "io.micronaut.configuration:micronaut-hibernate-validator"
+    //[end::Hibernate-Validator]
     compile "org.springframework.security:spring-security-crypto:${springSecurityCryptoVersion}"
 
 
