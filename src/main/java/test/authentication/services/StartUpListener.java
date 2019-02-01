@@ -17,10 +17,10 @@
  * Author : Bobby
  */
 
-
 package test.authentication.services;
 
 import test.authentication.domain.configuration.ApplicationConfiguration;
+import test.authentication.domain.configuration.helper.Common;
 import test.authentication.domain.security.Role;
 import test.authentication.domain.security.User;
 import test.authentication.domain.security.UserRole;
@@ -28,13 +28,8 @@ import test.authentication.services.security.BCryptPasswordEncoderService;
 import test.authentication.services.security.RoleService;
 import test.authentication.services.security.UserRoleService;
 import test.authentication.services.security.UserService;
-
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
-
 
 @Singleton
 public class StartUpListener {
@@ -58,46 +53,48 @@ public class StartUpListener {
             User user = userService.findByEmail("bobby@tokodistributor.com");
             String password = bCryptPasswordEncoderService.encode(applicationConfiguration.getDefaultPassword());
             if (user == null) {
-                userService.save("bobby@tokodistributor.com", "bobby",password, true, false, false);
+                userService.save("bobby@tokodistributor.com", "+6281293308020",password, true, false, false);
                 logger.info("\n---------------CREATE USER-----------------\n---------------EMAIL: bobby@tokodistributor.com-----------------\n---------------PASSWORD: <PROTECTED>-----------------\n---------------USER CREATED-----------------\n");
-            } else {
+            }
+            else {
                 logger.info("\n---------------SOME USER ALREADY EXIST-----------------");
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.info("\nError <INSERT USER> : " +ex);
         }
     }
 
     public void CheckRoleToInsert(){
         try{
-            Role roleAdmin      = roleService.findByAuthority("ROLE_ADMIN");
-            Role roleCorpAdmin  = roleService.findByAuthority("ROLE_CORP_ADMIN");
-            Role roleBuyer      = roleService.findByAuthority("ROLE_BUYER");
-            Role roleSeller     = roleService.findByAuthority("ROLE_SELLER");
+            Role roleAdmin      = roleService.findByAuthority(Common.ROLE_ADMIN);
+            Role roleCorpAdmin  = roleService.findByAuthority(Common.ROLE_CORP_ADMIN);
+            Role roleCustomer   = roleService.findByAuthority(Common.ROLE_CUSTOMER);
+            Role roleSupplier   = roleService.findByAuthority(Common.ROLE_SUPPLIER);
 
             if(roleAdmin == null){
-                roleService.save("Admin Role","ROLE_ADMIN","Y");
+                roleService.save("Admin Role",Common.ROLE_ADMIN,"Y");
                 logger.info("\n---------------CREATE ROLE-----------------\n---------------NAME: Admin Role-----------------\n---------------AUTHORITY: ROLE_ADMIN-----------------\n---------------ROLE CREATED-----------------\n");
             }
             else{
                 logger.info("\n---------------ROLE ADMIN ALREADY EXIST-----------------");
             }
             if(roleCorpAdmin == null){
-                roleService.save("Corp Admin Role","ROLE_CORP_ADMIN","Y");
+                roleService.save("Corp Admin Role",Common.ROLE_CORP_ADMIN,"Y");
                 logger.info("\n---------------CREATE ROLE-----------------\n---------------NAME: Corp Admin Role-----------------\n---------------AUTHORITY: ROLE_CORP_ADMIN-----------------\n---------------ROLE CREATED-----------------\n");
             }
             else{
                 logger.info("\n---------------ROLE CORP ADMIN ALREADY EXIST-----------------");
             }
-            if(roleBuyer == null){
-                roleService.save("Buyer Role","ROLE_BUYER","Y");
+            if(roleCustomer == null){
+                roleService.save("Buyer Role",Common.ROLE_CUSTOMER,"Y");
                 logger.info("\n---------------CREATE ROLE-----------------\n---------------NAME: Buyer Role-----------------\n---------------AUTHORITY: ROLE_BUYER-----------------\n---------------ROLE CREATED-----------------\n");
             }
             else{
                 logger.info("\n---------------ROLE BUYER ALREADY EXIST-----------------");
             }
-            if(roleSeller == null){
-                roleService.save("Seller Role","ROLE_SELLER","Y");
+            if(roleSupplier == null){
+                roleService.save("Seller Role",Common.ROLE_SUPPLIER,"Y");
                 logger.info("\n---------------CREATE ROLE-----------------\n---------------NAME: Seller Role-----------------\n---------------AUTHORITY: ROLE_SELLER-----------------\n---------------ROLE CREATED-----------------\n");
             }
             else{
@@ -114,7 +111,6 @@ public class StartUpListener {
             User user           = userService.findByEmail("bobby@tokodistributor.com");
             Role roleAdmin      = roleService.findByAuthority("ROLE_ADMIN");
             UserRole userRole   = userRoleService.findByUserAndRole(user,roleAdmin);
-
 
             if(userRole == null){
                 userRoleService.save(user,roleAdmin);

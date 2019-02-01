@@ -32,9 +32,9 @@ public class User {
 
     public User(){}
 
-    public User(@NotNull @Email String email, @NotNull String username, @NotNull String password, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked){
+    public User(@NotNull @Email String email, @NotNull String mobilePhoneNo, @NotNull String password, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked){
         this.email = email;
-        this.username = username;
+        this.mobilePhoneNo = mobilePhoneNo;
         this.password = password;
         this.enabled = enabled;
         this.accountExpired = accountExpired;
@@ -60,8 +60,8 @@ public class User {
     private String password;
 
     @NotNull
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @Column(name = "mobile_phone_number", nullable = false, unique = true)
+    private String mobilePhoneNo;
 
     @NotNull
     @Column(name ="enabled")
@@ -79,8 +79,8 @@ public class User {
     * password expired is a Date
     * the date when the password will expired or use for the last time
     * */
-//    @Column(name = "password_expired")
-//    private Date passwordExpired;
+    @Column(name = "password_expired")
+    private Date passwordExpired;
 
     /**
      * Configuration for Join to table UserDetails
@@ -106,9 +106,9 @@ public class User {
 
     public void setVersion(Long version) { this.version = version; }
 
-    public void setUsername(@NotNull String username){ this.username = username; }
+    public String getMobilePhoneNo() { return mobilePhoneNo; }
 
-    public String getUsername() { return username; }
+    public void setMobilePhoneNo(String mobilePhoneNo) { this.mobilePhoneNo = mobilePhoneNo; }
 
     public void setEmail(@NotNull @Email String email){ this.email = email; }
 
@@ -142,13 +142,13 @@ public class User {
         return accountLocked;
     }
 
-//    public void setPasswordExpired(Date passwordExpired) {
-//        this.passwordExpired = passwordExpired;
-//    }
-//
-//    public Date isPasswordExpired() {
-//        return passwordExpired;
-//    }
+    public void setPasswordExpired(Date passwordExpired) {
+        this.passwordExpired = passwordExpired;
+    }
+
+    public Date isPasswordExpired() {
+        return passwordExpired;
+    }
 
 //    public void setUserDetails(UserDetails userDetails) {
 //        this.userDetails = userDetails;

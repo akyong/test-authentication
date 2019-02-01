@@ -31,5 +31,4 @@ public class CustomJWTClaimsSetGenerator extends JWTClaimsSetGenerator {
             builder.claim("cifId", ((CifUserDetails) userDetails).getCifId());
         }
     }
-
 }

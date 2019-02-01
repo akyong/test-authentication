@@ -81,6 +81,8 @@ dependencies {
     //[end::Hibernate-Validator]
     compile "org.springframework.security:spring-security-crypto:${springSecurityCryptoVersion}"
 
+    compile 'io.micronaut.configuration:micronaut-kafka' //KAFKA
+
 
 }
 

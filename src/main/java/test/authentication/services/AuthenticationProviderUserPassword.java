@@ -17,18 +17,15 @@
  * Author : Bobby
  */
 
-
 package test.authentication.services;
 
 import io.micronaut.security.authentication.*;
 import io.micronaut.security.authentication.providers.PasswordEncoder;
 import io.reactivex.Flowable;
 import org.reactivestreams.Publisher;
-
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import test.authentication.domain.app.cif.Cif;
@@ -85,7 +82,6 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
         User user = userService.findByEmail(email);//username yang diinput
         Cif cifInstance = cifService.findCifByUser(user);
         if(user != null){
-            LOG.info("BOOLEAN = "+passwordEncoder.matches(password,user.getPassword()));
             if(passwordEncoder.matches(password,user.getPassword())){
                 ArrayList roles = userRoleService.findAllByUser(user);
                 CifUserDetails userDetails = new CifUserDetails((String) authenticationRequest.getIdentity(), roles, ((cifInstance == null) || (cifInstance.getCifId() == null) ? null : cifInstance.getCifId()));

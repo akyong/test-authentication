@@ -59,3 +59,10 @@ jpa:
 application:
     max: 10
 #end::application[]
+
+#tag::kafka[]
+---
+kafka:
+    bootstrap:
+        servers: localhost:9092
+#end:kafka[]

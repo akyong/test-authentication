@@ -20,18 +20,17 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class HomeControllerTest {
-    private static EmbeddedServer server; // <1>
-    private static RxHttpClient client; // <2>
+    private static EmbeddedServer server;
+    private static RxHttpClient client;
 
     @BeforeClass
     public static void setupServer() {
         server = ApplicationContext
                 .build()
-                .run(EmbeddedServer.class); // <1>
+                .run(EmbeddedServer.class);
         client = server.getApplicationContext().createBean(RxHttpClient.class, server.getURL()); // <2>
 
     }
-
 
     @AfterClass
     public static void stopServer() {

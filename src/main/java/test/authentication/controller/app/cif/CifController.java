@@ -26,7 +26,6 @@ import io.micronaut.http.annotation.Error;
 import io.micronaut.http.hateos.JsonError;
 import io.micronaut.http.hateos.Link;
 import io.micronaut.security.annotation.Secured;
-import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.security.utils.SecurityService;
 import io.micronaut.validation.Validated;
@@ -329,7 +328,4 @@ public class CifController {
         );
         return cifUser;
     }
-
-
-
 }

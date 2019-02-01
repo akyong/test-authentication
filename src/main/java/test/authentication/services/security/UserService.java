@@ -53,8 +53,8 @@ public class UserService implements UserRepository {
 
     @Override
     @Transactional
-    public User save(@NotNull @Email String email, @NotNull String username, @NotNull  String encodedPassword, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked) {
-        User user = new User(email, username, encodedPassword, enabled,accountExpired, accountLocked);
+    public User save(@NotNull @Email String email, @NotNull String mobilePhoneNo, @NotNull  String encodedPassword, @NotNull boolean enabled, @NotNull boolean accountExpired, @NotNull boolean accountLocked) {
+        User user = new User(email, mobilePhoneNo, encodedPassword, enabled,accountExpired, accountLocked);
         entityManager.persist(user);
         return user;
     }

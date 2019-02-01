@@ -18,16 +18,30 @@
  */
 package test.authentication.controller;
 
+import io.micronaut.http.HttpRequest;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import com.nimbusds.jose.util.Base64;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.security.token.jwt.signature.secret.SecretSignatureConfiguration;
+import test.authentication.domain.configuration.helper.Common;
+import test.authentication.repository.EmailRepository;
+import test.authentication.services.HomeService;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.logging.Logger;
 
-@Secured("isAuthenticated()")
+@Secured(SecurityRule.IS_ANONYMOUS)
 @Controller("/")
 public class HomeController {
+    private static HomeService homeService;
+    private final EmailRepository emailRepository;
+
+    public HomeController(HomeService homeService,EmailRepository emailRepository){
+        this.homeService = homeService;
+        this.emailRepository = emailRepository;
+    }
 
     @Get("/")
     String index(Principal principal){
@@ -47,5 +61,33 @@ public class HomeController {
         return principal.getName();
     }
 
+
+    @Get("/api/checking")
+    public void checkPhoneNoOrEmail(HttpRequest<?> request){
+        String via = request.getParameters().get("via");
+        if(via.equals(Common.VIA_EMAIL)){
+            String email = request.getParameters().get("email");
+            boolean existOrNot = homeService.checkEmail(email);
+            if (existOrNot){
+
+            }
+        }
+        if(via.equals(Common.VIA_MOBILE_PHONE_NO)){
+            String number = request.getParameters().get("mobilePhoneNo");
+            boolean existOrNot = homeService.checkEmail(number);
+            if(existOrNot){
+                HashMap map = new HashMap();
+                map.put("destination",number);
+                map.put("otp",RandomInt());
+                emailRepository.sendSms("OTP",map);
+            }
+
+        }
+    }
+
+    public int RandomInt(){
+        int random = (int )(Math.random() * 9999 + 1);
+        return random;
+    }
 
 }
