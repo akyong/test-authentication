@@ -37,7 +37,7 @@ datasources:
     default:
         url: jdbc:mysql://localhost:3306/test_authentication?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
         username: root
-        password: root
+        password: Bobby2009
         driverClassName: "com.mysql.jdbc.Driver"
 
 #tag::jpa[] //untuk cek di folder test.app.domain jika ada setiap perubahan maka ada pembaruan table di database.

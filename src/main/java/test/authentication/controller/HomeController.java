@@ -30,7 +30,6 @@ import test.authentication.repository.EmailRepository;
 import test.authentication.services.HomeService;
 import java.security.Principal;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 @Secured(SecurityRule.IS_ANONYMOUS)
 @Controller("/")
