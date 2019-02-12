@@ -20,7 +20,7 @@ micronaut:
                 signatures:         #[1] kesimpulan -> saat menggunakan Cookie, Auth Bearer tidak bisa digunakan dan sebaliknya, jika bearer mau digunakan, cookie harus dimatikan!!!
                     secret:
                         generator:
-                            secret: "TmFtZTpCb2JieXxOaWNrIE5hbWU6QWt5b25nfEUtbWFpbDpib2JieUB0b2tvZGlzdHJpYnV0b3IuY29tfE1vYmlsZSBQaG9uZSBOdW1iZXI6KzYyODEyOTMzMDgwMjB8RmFjZWJvb2s6L2t5b25neHxUd2l0dGVyOkByeW9reW9uZ3xsYXQ6LTYuMTMyNTMzM3xsb25nOjEwNi43NjgxODAxLDE3eg=="
+                            secret: "testAuthentication=DontForgetToChangeThis"
                             base64: true
                             jws-algorithm: HS256
         session: #micronaut security session
